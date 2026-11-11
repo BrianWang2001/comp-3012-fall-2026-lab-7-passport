@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import { ensureAuthenticated, ensureIsAdmin } from "../middleware/checkAuth";
 import type { AdminSessionRow } from "../interfaces";
+import { getUserById } from "../controllers/userController";
 
 router.get("/", (req, res) => {
   res.send(
@@ -30,7 +31,10 @@ router.get("/admin", ensureIsAdmin, (req, res) => {
       const userId = storedSessions[sessionId]?.passport?.user;
 
       if (userId !== undefined) {
-        activeSessions.push({ sessionId, userId });
+        const userName = getUserById(userId)?.name;
+        if(userName !== undefined){
+          activeSessions.push({ sessionId, userId, userName });
+        }
       }
     }
 

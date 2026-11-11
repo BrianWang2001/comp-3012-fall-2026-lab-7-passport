@@ -17,4 +17,5 @@ export interface User {
 export interface AdminSessionRow {
   sessionId: string;
   userId: number;
+  userName: string;
 }
